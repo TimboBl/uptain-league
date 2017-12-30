@@ -27,9 +27,11 @@
     "typescript": "^2.6.2"
   },
   "dependencies": {
+    "@types/mongoose": "^4.7.31",
     "bluebird": "^3.5.1",
     "cors": "^2.8.4",
     "express": "^4.16.2",
+    "mongoose": "^5.0.0-rc0",
     "winston": "^2.4.0"
   }
 }

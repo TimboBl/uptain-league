@@ -1,0 +1,28 @@
+{
+  "name": "uptain-league-backend",
+  "version": "0.0.1",
+  "description": "Backend to store scores and leaders",
+  "main": "dist/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CkFreak/uptain-league.git"
+  },
+  "author": "Timbo Blaesche",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CkFreak/uptain-league/issues"
+  },
+  "homepage": "https://github.com/CkFreak/uptain-league#readme",
+  "devDependencies": {
+    "@types/express": "^4.11.0",
+    "@types/node": "^8.5.2",
+    "tslint": "^5.8.0",
+    "typescript": "^2.6.2"
+  },
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}

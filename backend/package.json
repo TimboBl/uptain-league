@@ -4,11 +4,12 @@
   "description": "Backend to store scores and leaders",
   "main": "dist/server.js",
   "scripts": {
+    "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CkFreak/uptain-league.git"
+    "url": "https://github.com/CkFreak/uptain-league.git"
   },
   "author": "Timbo Blaesche",
   "license": "ISC",

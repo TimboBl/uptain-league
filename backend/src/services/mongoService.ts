@@ -3,7 +3,11 @@ import {logger} from "../logging/logger";
 
 export const mongoService = (() => {
 
-    const mongoMethods = {};
+    const createPlayer = (name: string) => {
+
+    };
+
+    const mongoMethods = {createPlayer};
     const init = () => {
         return new Promise((resolve: Function, reject: Function) => {
             mongoose.connect(process.env.MONGO || "mongodb://localhost:27017/uptain-board",

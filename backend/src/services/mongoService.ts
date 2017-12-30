@@ -6,7 +6,7 @@ export const mongoService = (() => {
     const mongoMethods = {};
     const init = () => {
         return new Promise((resolve: Function, reject: Function) => {
-            mongoose.connect(process.env.MONGO || "mongo://localhost:27017/uptain-board",
+            mongoose.connect(process.env.MONGO || "mongodb://localhost:27017/uptain-board",
                 {useMongoClient: true}).then(() => {
                 resolve(mongoMethods);
             }).catch((err: Error) => {

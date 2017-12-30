@@ -4,7 +4,7 @@ export const logger = (() => {
     return new winston.Logger({
         level: process.env.LOG_LEVEL || "debug",
         transports: [
-            new winston.transports.Console({colorize: true}),
+            new winston.transports.Console({colorize: true, timestamp: true}),
             new winston.transports.File({filename: "events.log"})
         ],
         exitOnError: false

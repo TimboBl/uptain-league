@@ -6,15 +6,20 @@ import * as scoreKeeping from "./routes/scoreKeeping";
 import * as access from "./routes/access";
 
 export const startApp = () => {
-    logger.debug("Starting app");
-    const app = express();
+    return new Promise((resolve: Function) => {
+        logger.debug("Starting app");
+        const app = express();
 
-    logger.debug("Instantiating middlewares");
-    app.use(bodyParser.json());
-    app.use(cors());
+        logger.debug("Instantiating middlewares");
+        app.use(bodyParser.json());
+        app.use(cors());
 
-    logger.debug("Registering routes");
+        logger.debug("Registering routes");
 
-    app.use(access.getRouter());
-    app.use("/board", scoreKeeping.getRouter());
+        app.use(access.getRouter());
+        app.use("/board", scoreKeeping.getRouter());
+
+        app.listen(process.env.PORT || 3001);
+        resolve();
+    });
 };

@@ -6,12 +6,17 @@
 
 ## Installing
 * Clone this repository or download the master branch
- `cd backend
-  npm install
-  npm run build
-  cd ../frontend
-  npm install
-  npm run build`
+ `cd backend`
+ 
+ `npm install`
+ 
+ `npm run build`
+ 
+ `cd ../frontend`
+ 
+ `npm install`
+ 
+ `npm run build`
 * The dist folder in the backend folder is where all the javascript from the compiled TypeScript files will be.
 Deploy those to your server.
 * In the build folder in the frontend folder you will find the compiled React files. Deploy those to your webserver.

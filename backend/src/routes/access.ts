@@ -4,4 +4,6 @@ export const getRouter = () => {
     const router = express.Router();
 
     router.get("/login");
+
+    return router;
 };

@@ -5,7 +5,7 @@ import {logger} from "./logging/logger";
 import * as scoreKeeping from "./routes/scoreKeeping";
 import * as access from "./routes/access";
 
-export const startApp = () => {
+export const startApp = (mongoDB: any) => {
     return new Promise((resolve: Function) => {
         logger.debug("Starting app");
         const app = express();

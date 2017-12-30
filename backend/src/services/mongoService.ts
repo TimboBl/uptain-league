@@ -1,10 +1,13 @@
 import * as mongoose from "mongoose";
 import {logger} from "../logging/logger";
+import {Player} from "Player";
 
 export const mongoService = (() => {
 
-    const createPlayer = (name: string) => {
+    const createPlayer = (name: string): Promise<Player> => {
+        return new Promise(((resolve: Function, reject: Function) => {
 
+        }));
     };
 
     const mongoMethods = {createPlayer};

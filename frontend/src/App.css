@@ -26,3 +26,15 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.headline {
+  font-family: "Maven Pro";
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.tableHeader {
+    font-family: "Maven Pro";
+    font-size: 20px;
+    font-weight: lighter;
+}

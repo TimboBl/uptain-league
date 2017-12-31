@@ -10,6 +10,10 @@ export const startApp = (mongoDB: any) => {
         logger.debug("Starting app");
         const app = express();
 
+        app.use((req, res, next) => {
+            logger.info("New Request", {url: req.url});
+        });
+
         logger.debug("Instantiating middlewares");
         app.use(bodyParser.json());
         app.use(cors());
@@ -17,7 +21,7 @@ export const startApp = (mongoDB: any) => {
         logger.debug("Registering routes");
 
         app.use(access.getRouter());
-        app.use("/board", scoreKeeping.getRouter());
+        app.use("/board", scoreKeeping.getRouter(mongoDB));
 
         app.listen(process.env.PORT || 3001);
         resolve();

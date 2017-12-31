@@ -13,6 +13,8 @@
  `npm run build`
  
  `cd ../frontend`
+
+  Alter the homepage property to reflect the path where the website will be served.
  
  `npm install`
  

@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
 import './App.css';
 import CustomTableRow from "./components/CustomTableRow";
+import * as axios from 'axios';
+import {BASE_URL, SCORES} from "./config/config";
 
 class App extends Component {
 
     constructor() {
         super();
         this.getPlayers = this.getPlayers.bind(this);
+        this.state = {
+            rows: []
+        };
+        this.getPlayers();
     }
 
     render() {
@@ -26,7 +32,7 @@ class App extends Component {
                             <th className={"tableHeader"} style={{paddingLeft: "10px"}}>Score</th>
                         </tr>
                         </thead>
-                        <tbody>{this.getPlayers()}</tbody>
+                        <tbody>{this.state.rows}</tbody>
                     </table>
                 </div>
             </div>
@@ -34,7 +40,12 @@ class App extends Component {
     }
 
     getPlayers() {
-        return <CustomTableRow key={1} keyID={1} player={"Test"} score={"10"}/>
+        axios.get(BASE_URL + SCORES).then((result) => {
+           for (let i = 0; i < result.data.length; ++i) {
+               this.setState(this.state.rows.push(<CustomTableRow key={i} keyID={i} player={result.data[i].name}
+                                                                  score={result.data[i].score}/>));
+           }
+        });
     }
 }
 

@@ -12,14 +12,21 @@ export const mongoService = (() => {
             }, {upsert: true}).exec();
     };
 
-    const mongoMethods = {updatePlayerScore};
+    const getScores = () => {
+        return PLAYER.find({}).cursor();
+    };
+
+    const mongoMethods = {
+        updatePlayerScore,
+        getScores
+    };
     const init = () => {
         return new Promise((resolve: Function, reject: Function) => {
             mongoose.connect(process.env.MONGO || "mongodb://localhost:27017/uptain-board")
                 .then(() => {
                 resolve(mongoMethods);
             }).catch((err: Error) => {
-                logger.error("Could not establish a connection to MongoDB", {error: err});
+                logger.error("Could not establish a connection to MongoDB", err);
                 reject();
             });
         });

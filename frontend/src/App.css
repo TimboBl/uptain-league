@@ -46,3 +46,15 @@
     font-weight: lighter;
     color: #d2d2d2;
 }
+
+button {
+    background-color: #E36568;
+    font-family: "Maven Pro";
+    color: #fff;
+    float: right;
+    margin-right: 7px;
+    border-radius: 3px;
+    border-width: 1px;
+    margin-top: 7px;
+    cursor: pointer;
+}

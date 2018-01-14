@@ -12,6 +12,7 @@ class App extends Component {
         this.getPlayers = this.getPlayers.bind(this);
         this.addPlayer = this.addPlayer.bind(this);
         this.closePlayerWindow = this.closePlayerWindow.bind(this);
+        this.render = this.render.bind(this);
         this.state = {
             rows: [],
             playerWindowOpen: false
@@ -68,6 +69,7 @@ class App extends Component {
 
     closePlayerWindow() {
         this.setState({playerWindowOpen: false});
+        this.getPlayers();
     }
 }
 

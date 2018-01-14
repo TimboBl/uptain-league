@@ -49,13 +49,13 @@ class Modal extends React.Component{
     saveNewPlayer () {
         const self = this;
         if (this.state.name === "" || this.state.score === "") {
-            console.log("You need to enter something");
+            self.setState({error: "You need to enter something"});
         } else {
             axios.post(BASE_URL + NEW_PLAYER, {
                 name: this.state.name,
                 score: this.state.score
             }).then(() => {
-                this.props.closePlayerWindow()
+                this.props.closePlayerWindow();
             }).catch((error) => {
                 console.log(error);
                 if (error.response.status === 409) {

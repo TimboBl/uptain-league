@@ -2,6 +2,7 @@ import * as mongoose from "mongoose";
 import {logger} from "../logging/logger";
 import {Player} from "Player";
 import {PLAYER} from "../models/Player";
+import {QueryCursor} from "mongoose";
 
 export const mongoService = (() => {
 
@@ -12,12 +13,23 @@ export const mongoService = (() => {
         }, {upsert: true}).exec();
     };
 
+    const findPlayer = (playerName: string) => {
+        return PLAYER.find({name: playerName}).exec().then((result) => {
+            if (result[0]) {
+                return result[0];
+            } else {
+                return undefined;
+            }
+        });
+    };
+
     const getScores = () => {
         return PLAYER.find({}, {name: 1, score: 1, _id: 0}).cursor();
     };
 
     const mongoMethods = {
         updatePlayer,
+        findPlayer,
         getScores
     };
     const init = () => {

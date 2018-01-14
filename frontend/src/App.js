@@ -25,7 +25,7 @@ class App extends Component {
                 <header /*style={{backgroundColor: "rgb(147, 212, 217"}}*/>
                     <a href={"http://www.uptain.de"}><img
                         src={"http://www.uptain.de/wp-content/uploads/2016/06/logo-1.png"} alt={"uptain.de"}
-                        height={40} width={108} style={{float: "left", paddingLeft: "40px", paddingTop: "10px"}}/></a>
+                        height={40} width={108} style={{float: "left", paddingLeft: "40px", paddingTop: "10px", cursor: "pointer"}}/></a>
                     <h1 className={"headline"} style={{paddingTop: "50px", textAlign: "center"}}>uptain Leaderbord</h1>
                 </header>
                 <Modal playerWindowOpen={this.state.playerWindowOpen} closePlayerWindow={this.closePlayerWindow}/>
@@ -47,7 +47,8 @@ class App extends Component {
                     marginRight: "7px",
                     borderRadius: "3px",
                     borderWidth: "1px",
-                    marginTop: "7px"}}
+                    marginTop: "7px",
+                    cursor: "pointer"}}
                         onClick={this.addPlayer}>Add Player</button>
             </div>
         );

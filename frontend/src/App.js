@@ -51,13 +51,12 @@ class App extends Component {
         let rows = [];
         let self = this;
         axios.get(BASE_URL + SCORES).then((result) => {
-            console.log(result.data.data.length)
            for (let i = 0; i < result.data.data.length; ++i) {
                rows.push(<CustomTableRow key={i} keyID={i} player={result.data.data[i].name}
-                                                                  score={result.data.data[i].score}/>);
+                                                                  score={result.data.data[i].score}
+                                            render={this.getPlayers}/>);
            }
            self.setState({rows: rows});
-           console.log(rows);
         }).catch((error) => {
             console.log(error);
         });

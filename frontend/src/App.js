@@ -3,14 +3,18 @@ import './App.css';
 import CustomTableRow from "./components/CustomTableRow";
 import * as axios from 'axios';
 import {BASE_URL, SCORES} from "./config/config";
+import Modal from "./components/Modal";
 
 class App extends Component {
 
     constructor() {
         super();
         this.getPlayers = this.getPlayers.bind(this);
+        this.addPlayer = this.addPlayer.bind(this);
+        this.closePlayerWindow = this.closePlayerWindow.bind(this);
         this.state = {
-            rows: []
+            rows: [],
+            playerWindowOpen: false
         };
         this.getPlayers();
     }
@@ -24,6 +28,7 @@ class App extends Component {
                         height={40} width={108} style={{float: "left", paddingLeft: "40px", paddingTop: "10px"}}/></a>
                     <h1 className={"headline"} style={{paddingTop: "50px", textAlign: "center"}}>uptain Leaderbord</h1>
                 </header>
+                <Modal playerWindowOpen={this.state.playerWindowOpen} closePlayerWindow={this.closePlayerWindow}/>
                 <div style={{backgroundColor: "#5b5553", width: "100%"}}>
                     <table style={{margin: "auto"}}>
                         <thead>
@@ -35,6 +40,8 @@ class App extends Component {
                         <tbody>{this.state.rows}</tbody>
                     </table>
                 </div>
+                <button style={{backgroundColor: "#E36568", fontFamily: "Maven Pro", color: "#fff"}}
+                        onClick={this.addPlayer}>Add Player</button>
             </div>
         );
     }
@@ -46,6 +53,14 @@ class App extends Component {
                                                                   score={result.data[i].score}/>));
            }
         });
+    }
+
+    addPlayer() {
+         this.setState({playerWindowOpen: true});
+    }
+
+    closePlayerWindow() {
+        this.setState({playerWindowOpen: false});
     }
 }
 

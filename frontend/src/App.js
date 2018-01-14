@@ -40,7 +40,14 @@ class App extends Component {
                         <tbody>{this.state.rows}</tbody>
                     </table>
                 </div>
-                <button style={{backgroundColor: "#E36568", fontFamily: "Maven Pro", color: "#fff"}}
+                <button style={{backgroundColor: "#E36568",
+                    fontFamily: "Maven Pro",
+                    color: "#fff",
+                    float: "right",
+                    marginRight: "7px",
+                    borderRadius: "3px",
+                    borderWidth: "1px",
+                    marginTop: "7px"}}
                         onClick={this.addPlayer}>Add Player</button>
             </div>
         );

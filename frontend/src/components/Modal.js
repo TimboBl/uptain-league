@@ -35,18 +35,9 @@ class Modal extends React.Component{
                 Initial Score: <input type={"text"} style={{position: "absolute"}} onChange={this.handleScoreChange}/>
                 <footer>
                     <div>
-                        <button style={{color: "#fff",
-                            backgroundColor: "#E36568",
-                            fontFamily: "Maven Pro",
-                            float: "right",
-                            borderRadius: "3px"}} onClick={this.props.closePlayerWindow}>Close</button>
+                        <button onClick={this.props.closePlayerWindow}>Close</button>
 
-                    <button style={{color: "#fff",
-                        backgroundColor: "#E36568",
-                        fontFamily: "Maven Pro",
-                        float: "right",
-                        marginRight: "5px",
-                        borderRadius: "3px"}} onClick={this.saveNewPlayer}>Save</button>
+                    <button onClick={this.saveNewPlayer}>Save</button>
                     </div>
                 </footer>
             </ReactModal>

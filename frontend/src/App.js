@@ -34,22 +34,15 @@ class App extends Component {
                         <thead>
                         <tr>
                             <th className={"tableHeader"} style={{paddingRight: "10px"}}>Player</th>
-                            <th className={"tableHeader"} style={{paddingLeft: "10px"}}>Score</th>
+                            <th className={"tableHeader"} style={{paddingLeft: "10px", paddingRight: "10px"}}>Score</th>
+                            <th className={"tableHeader"} style={{paddingRight: "10px"}}>Increase Score</th>
+                            <th className={"tableHeader"} style={{paddingLeft: "10px"}}>Decrease Score</th>
                         </tr>
                         </thead>
                         <tbody>{this.state.rows}</tbody>
                     </table>
                 </div>
-                <button style={{backgroundColor: "#E36568",
-                    fontFamily: "Maven Pro",
-                    color: "#fff",
-                    float: "right",
-                    marginRight: "7px",
-                    borderRadius: "3px",
-                    borderWidth: "1px",
-                    marginTop: "7px",
-                    cursor: "pointer"}}
-                        onClick={this.addPlayer}>Add Player</button>
+                <button onClick={this.addPlayer}>Add Player</button>
             </div>
         );
     }
@@ -58,11 +51,13 @@ class App extends Component {
         let rows = [];
         let self = this;
         axios.get(BASE_URL + SCORES).then((result) => {
-           for (let i = 0; i < result.data.length; ++i) {
+            console.log(result.data.data.length)
+           for (let i = 0; i < result.data.data.length; ++i) {
                rows.push(<CustomTableRow key={i} keyID={i} player={result.data.data[i].name}
                                                                   score={result.data.data[i].score}/>);
            }
            self.setState({rows: rows});
+           console.log(rows);
         }).catch((error) => {
             console.log(error);
         });

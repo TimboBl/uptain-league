@@ -28,3 +28,8 @@ Deploy those to your server.
 ### For the Backend
 * PORT - The Port the server will listen at
 * LOG_LEVEL - The kind of logs you want to get out of the backend (logs will be saved to backend/src/events.log)
+
+### For the Frontend
+* USERNAME - The username that is used to authenticate with dashboard.uptain.de
+* PASSWORD - The password for dashboard.uptain.de
+* AUTH_TOKEN - The auth_token property for requests to dashboard.uptain.de

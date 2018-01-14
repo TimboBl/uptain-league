@@ -33,18 +33,20 @@ export const playerController = (mongoDB: any) => {
 
     const saveNewPlayer = (req: Request, res: Response) => {
         if(req.body.name && req.body.score) {
-            if (mongoDB.findPlayer(req.body.name)) {
-                res.status(409).send({message: "Conflict! This name is already taken"});
-            } else {
-                logger.debug("Saving a new Player", {player: req.body});
-                mongoDB.updatePlayer(req.body.name, req.body.score).then(() => {
-                    logger.debug("New Player was successfully saved");
-                    res.status(200).send({message: "Success"});
-                }).catch((err: Error) => {
-                    logger.error("The new user could not be saved", {error: err});
-                    res.status(500).send({message: "There was an internal server error"});
-                });
-            }
+            mongoDB.findPlayer(req.body.name).then((result: any) => {
+                if (result) {
+                    res.status(409).send({message: "Conflict! This name is already taken"});
+                } else {
+                    logger.debug("Saving a new Player", {player: req.body});
+                    mongoDB.updatePlayer(req.body.name, req.body.score).then(() => {
+                        logger.debug("New Player was successfully saved");
+                        res.status(200).send({message: "Success"});
+                    }).catch((err: Error) => {
+                        logger.error("The new user could not be saved", {error: err});
+                        res.status(500).send({message: "There was an internal server error"});
+                    });
+                }
+            });
         }
     };
 

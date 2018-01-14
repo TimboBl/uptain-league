@@ -1,5 +1,7 @@
 import React from "react";
 import ReactModal from "react-modal";
+import * as axios from 'axios';
+import {BASE_URL, NEW_PLAYER} from "../config/config";
 
 const modalStyle = {
     content: {
@@ -11,6 +13,17 @@ const modalStyle = {
 };
 
 class Modal extends React.Component{
+    constructor(props) {
+        super(props);
+        this.saveNewPlayer = this.saveNewPlayer.bind(this);
+        this.handleNameChange = this.handleNameChange.bind(this);
+        this.handleScoreChange = this.handleScoreChange.bind(this);
+
+        this.state = {
+            name: "",
+            score: ""
+        }
+    }
 
     render() {
         return (
@@ -18,8 +31,8 @@ class Modal extends React.Component{
                         contentLabel={"Test"}
                         style={modalStyle}>
                 <h1 style={{fontFamily: "Maven Pro", textAlign: "center"}}>Add a new Player to the league</h1>
-                First Name: <input type={"text"} style={{position: "absolute"}}/> <br/>
-                Initial Score: <input type={"text"} style={{position: "absolute"}}/>
+                First Name: <input type={"text"} style={{position: "absolute"}} onChange={this.handleNameChange}/> <br/>
+                Initial Score: <input type={"text"} style={{position: "absolute"}} onChange={this.handleScoreChange}/>
                 <footer>
                     <button style={{color: "#fff",
                         backgroundColor: "#E36568",
@@ -28,6 +41,25 @@ class Modal extends React.Component{
                 </footer>
             </ReactModal>
         )
+    }
+
+    saveNewPlayer () {
+        if (this.state.name === "" || this.state.score === "") {
+
+        } else {
+            axios.post(BASE_URL + NEW_PLAYER, {
+                name: this.state.name,
+                score: this.state.score
+            });
+        }
+    }
+
+    handleScoreChange(e) {
+        this.setState({score: e.target.value});
+    }
+
+    handleNameChange(e) {
+        this.setState({name: e.target.value});
     }
 }
 

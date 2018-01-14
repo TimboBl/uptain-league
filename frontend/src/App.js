@@ -57,7 +57,16 @@ class App extends Component {
                                                                   score={result.data.data[i].score}
                                             render={this.getPlayers}/>);
            }
-           self.setState({rows: rows});
+            self.setState({rows: rows});
+            axios.post("https://" + process.env.USERNAME + ":" + process.env.PASSWORD + "@dashboard.uptain.de/widgets/leader", {
+                text: self.state.rows[0].name,
+                auth_token: process.env.AUTH_TOKEN
+            }).then(() => {
+                console.log("Successfully updated Score on the uptain KPI Monitor");
+            }).catch((error) => {
+                console.log(error);
+                console.log("Failed to update KPI Monitor leader");
+            });
         }).catch((error) => {
             console.log(error);
         });

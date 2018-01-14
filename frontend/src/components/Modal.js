@@ -34,10 +34,20 @@ class Modal extends React.Component{
                 First Name: <input type={"text"} style={{position: "absolute"}} onChange={this.handleNameChange}/> <br/>
                 Initial Score: <input type={"text"} style={{position: "absolute"}} onChange={this.handleScoreChange}/>
                 <footer>
+                    <div>
+                        <button style={{color: "#fff",
+                            backgroundColor: "#E36568",
+                            fontFamily: "Maven Pro",
+                            float: "right",
+                            borderRadius: "3px"}} onClick={this.props.closePlayerWindow}>Close</button>
+
                     <button style={{color: "#fff",
                         backgroundColor: "#E36568",
                         fontFamily: "Maven Pro",
-                        float: "right"}} onClick={this.props.closePlayerWindow}>Close</button>
+                        float: "right",
+                        marginRight: "5px",
+                        borderRadius: "3px"}} onClick={this.saveNewPlayer}>Save</button>
+                    </div>
                 </footer>
             </ReactModal>
         )
@@ -45,11 +55,15 @@ class Modal extends React.Component{
 
     saveNewPlayer () {
         if (this.state.name === "" || this.state.score === "") {
-
+            console.log("You need to enter something");
         } else {
             axios.post(BASE_URL + NEW_PLAYER, {
                 name: this.state.name,
                 score: this.state.score
+            }).then(() => {
+                this.props.closePlayerWindow()
+            }).catch((error) => {
+                console.log(error);
             });
         }
     }

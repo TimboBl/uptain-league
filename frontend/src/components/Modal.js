@@ -21,7 +21,8 @@ class Modal extends React.Component{
 
         this.state = {
             name: "",
-            score: ""
+            score: "",
+            error: ""
         }
     }
 
@@ -33,6 +34,7 @@ class Modal extends React.Component{
                 <h1 style={{fontFamily: "Maven Pro", textAlign: "center"}}>Add a new Player to the league</h1>
                 First Name: <input type={"text"} style={{position: "absolute"}} onChange={this.handleNameChange}/> <br/>
                 Initial Score: <input type={"text"} style={{position: "absolute"}} onChange={this.handleScoreChange}/>
+                <div style={{color: "#A94442"}}>{this.state.error}</div>
                 <footer>
                     <div>
                         <button onClick={this.props.closePlayerWindow}>Close</button>
@@ -45,6 +47,7 @@ class Modal extends React.Component{
     }
 
     saveNewPlayer () {
+        const self = this;
         if (this.state.name === "" || this.state.score === "") {
             console.log("You need to enter something");
         } else {
@@ -55,6 +58,9 @@ class Modal extends React.Component{
                 this.props.closePlayerWindow()
             }).catch((error) => {
                 console.log(error);
+                if (error.response.status === 409) {
+                    self.setState({error: "This player name is already taken"});
+                }
             });
         }
     }
@@ -64,6 +70,7 @@ class Modal extends React.Component{
     }
 
     handleNameChange(e) {
+        this.setState({error: ""});
         this.setState({name: e.target.value});
     }
 }

@@ -7,7 +7,7 @@ export const getRouter = (mongoDB: any) => {
 
     router.get("/scores", playerController.getScores);
     router.put("/scores/:player", playerController.updateScore);
-    router.post("/player");
+    router.post("/player", playerController.saveNewPlayer);
 
     return router;
 };

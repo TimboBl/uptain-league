@@ -4,7 +4,7 @@ import {Player} from "Player";
 
 export const playerController = (mongoDB: any) => {
     const updateScore = (req: Request, res: Response) => {
-        mongoDB.updatePlayerScore(req.body.name, req.body.score).then(() => {
+        mongoDB.updatePlayer(req.body.name, req.body.score).then(() => {
             logger.debug("Player score was successfully updated", {name: req.body.name, score: req.body.score});
             res.status(200).send({message: "Success"});
         }).catch((err: Error) => {
@@ -31,8 +31,22 @@ export const playerController = (mongoDB: any) => {
             });
     };
 
+    const saveNewPlayer = (req: Request, res: Response) => {
+        if(req.body.name && req.body.score) {
+            logger.debug("Saving a new Player", {player: req.body});
+            mongoDB.updatePlayer(req.body.name, req.body.score).then(() => {
+                logger.debug("New Player was successfully saved");
+                res.status(200).send({message: "Success"});
+            }).catch((err: Error) => {
+                logger.error("The new user could not be saved", {error: err});
+                res.status(500).send({message: "There was an internal server error"});
+            });
+        }
+    };
+
     return {
         updateScore,
-        getScores
+        getScores,
+        saveNewPlayer
     };
 };

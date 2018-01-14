@@ -26,3 +26,36 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.headline {
+  font-family: "Maven Pro";
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.tableHeader {
+    font-family: "Maven Pro";
+    font-size: 20px;
+    font-weight: lighter;
+    color: #d2d2d2;
+}
+
+.tableRow {
+    font-family: "Maven Pro";
+    font-size: 15px;
+    font-weight: lighter;
+    color: #d2d2d2;
+}
+
+button {
+    background-color: #E36568;
+    font-family: "Maven Pro";
+    color: #fff;
+    float: right;
+    margin-right: 7px;
+    border-radius: 3px;
+    border-width: 1px;
+    margin-bottom: 3px;
+    margin-top: 3px;
+    cursor: pointer;
+}

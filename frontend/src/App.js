@@ -1,21 +1,85 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
+import CustomTableRow from "./components/CustomTableRow";
+import * as axios from 'axios';
+import {BASE_URL, SCORES} from "./config/config";
+import Modal from "./components/Modal";
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+
+    constructor() {
+        super();
+        this.getPlayers = this.getPlayers.bind(this);
+        this.addPlayer = this.addPlayer.bind(this);
+        this.closePlayerWindow = this.closePlayerWindow.bind(this);
+        this.render = this.render.bind(this);
+        this.state = {
+            rows: [],
+            playerWindowOpen: false
+        };
+        this.getPlayers();
+    }
+
+    render() {
+        return (
+            <div className="App">
+                <header /*style={{backgroundColor: "rgb(147, 212, 217"}}*/>
+                    <a href={"http://www.uptain.de"}><img
+                        src={"http://www.uptain.de/wp-content/uploads/2016/06/logo-1.png"} alt={"uptain.de"}
+                        height={40} width={108} style={{float: "left", paddingLeft: "40px", paddingTop: "10px", cursor: "pointer"}}/></a>
+                    <h1 className={"headline"} style={{paddingTop: "50px", textAlign: "center"}}>uptain Leaderbord</h1>
+                </header>
+                <Modal playerWindowOpen={this.state.playerWindowOpen} closePlayerWindow={this.closePlayerWindow}/>
+                <div style={{backgroundColor: "#5b5553", width: "100%"}}>
+                    <table style={{margin: "auto"}}>
+                        <thead>
+                        <tr>
+                            <th className={"tableHeader"} style={{paddingRight: "10px"}}>Player</th>
+                            <th className={"tableHeader"} style={{paddingLeft: "10px", paddingRight: "10px"}}>Score</th>
+                            <th className={"tableHeader"} style={{paddingRight: "10px"}}>Increase Score</th>
+                            <th className={"tableHeader"} style={{paddingLeft: "10px"}}>Decrease Score</th>
+                        </tr>
+                        </thead>
+                        <tbody>{this.state.rows}</tbody>
+                    </table>
+                </div>
+                <button onClick={this.addPlayer}>Add Player</button>
+            </div>
+        );
+    }
+
+    getPlayers() {
+        let rows = [];
+        let self = this;
+        axios.get(BASE_URL + SCORES).then((result) => {
+           for (let i = 0; i < result.data.data.length; ++i) {
+               rows.push(<CustomTableRow key={i} keyID={i} player={result.data.data[i].name}
+                                                                  score={result.data.data[i].score}
+                                            render={this.getPlayers}/>);
+           }
+            self.setState({rows: rows});
+            axios.post("https://" + process.env.USERNAME + ":" + process.env.PASSWORD + "@dashboard.uptain.de/widgets/leader", {
+                text: self.state.rows[0].name,
+                auth_token: process.env.AUTH_TOKEN
+            }).then(() => {
+                console.log("Successfully updated Score on the uptain KPI Monitor");
+            }).catch((error) => {
+                console.log(error);
+                console.log("Failed to update KPI Monitor leader");
+            });
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
+    addPlayer() {
+         this.setState({playerWindowOpen: true});
+    }
+
+    closePlayerWindow() {
+        this.setState({playerWindowOpen: false});
+        this.getPlayers();
+    }
 }
 
 export default App;

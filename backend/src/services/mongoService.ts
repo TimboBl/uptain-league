@@ -24,7 +24,7 @@ export const mongoService = (() => {
     };
 
     const getScores = () => {
-        return PLAYER.find({}, {name: 1, score: 1, _id: 0}).cursor();
+        return PLAYER.find({}, {name: 1, score: 1, _id: 0}).sort({score: -1}).cursor();
     };
 
     const mongoMethods = {

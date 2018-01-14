@@ -12,6 +12,7 @@ export const startApp = (mongoDB: any) => {
 
         app.use((req, res, next) => {
             logger.info("New Request", {url: req.url});
+            next();
         });
 
         logger.debug("Instantiating middlewares");

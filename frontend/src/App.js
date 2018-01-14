@@ -55,11 +55,15 @@ class App extends Component {
     }
 
     getPlayers() {
+        let rows = [];
         axios.get(BASE_URL + SCORES).then((result) => {
            for (let i = 0; i < result.data.length; ++i) {
-               this.setState(this.state.rows.push(<CustomTableRow key={i} keyID={i} player={result.data[i].name}
-                                                                  score={result.data[i].score}/>));
+               rows.push(<CustomTableRow key={i} keyID={i} player={result.data[i].name}
+                                                                  score={result.data[i].score}/>);
            }
+           this.setState({rows: rows});
+        }).catch((error) => {
+            console.log(error);
         });
     }
 

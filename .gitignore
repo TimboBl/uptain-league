@@ -69,6 +69,10 @@ typings/
 frontend/build
 backend/dist
 
+#Docker
+backend/data/
+frontend/data/
+
 # misc
 .DS_Store
 .env.local

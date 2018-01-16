@@ -71,7 +71,9 @@ backend/dist
 
 #Docker
 backend/data/
+backend/backend.env
 frontend/data/
+frontend/frontend.env
 
 # misc
 .DS_Store

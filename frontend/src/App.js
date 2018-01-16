@@ -27,7 +27,7 @@ class App extends Component {
                     <a href={"http://www.uptain.de"}><img
                         src={"http://www.uptain.de/wp-content/uploads/2016/06/logo-1.png"} alt={"uptain.de"}
                         height={40} width={108} style={{float: "left", paddingLeft: "40px", paddingTop: "10px", cursor: "pointer"}}/></a>
-                    <h1 className={"headline"} style={{paddingTop: "50px", textAlign: "center"}}>uptain Leaderbord</h1>
+                    <h1 className={"headline"} style={{paddingTop: "50px", textAlign: "center"}}>uptain Leaderboard</h1>
                 </header>
                 <Modal playerWindowOpen={this.state.playerWindowOpen} closePlayerWindow={this.closePlayerWindow}/>
                 <div style={{backgroundColor: "#5b5553", width: "100%"}}>

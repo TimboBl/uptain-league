@@ -25,6 +25,7 @@ Deploy those to your server.
 * In the build folder in the frontend folder you will find the compiled React files. Deploy those to your webserver.
 
 ## Environment Variables that need to be set
+These variables must be set in a frontend.env and backend.env file in the respective directories. The pattern to list the variables is: VAR=VAL one per line
 ### For the Backend
 * PORT - The Port the server will listen at
 * LOG_LEVEL - The kind of logs you want to get out of the backend (logs will be saved to backend/src/events.log)

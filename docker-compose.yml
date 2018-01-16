@@ -1,0 +1,28 @@
+version: "2"
+services:
+  backend:
+   container_name: backend
+   env_file:
+     - backend/backend.env
+#   restart: always
+   build: ./backend/
+   volumes:
+    - ./backend:/usr/src/app/
+   ports:
+    - "3001:3001"
+   links:
+    - mongo
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27017:27017"
+  frontend:
+    container_name: frontend
+    env_file:
+      - frontend/frontend.env
+    build: ./frontend/
+    volumes:
+      - ./frontend:/usr/src/app/
+    ports:
+      - "3000:3000"

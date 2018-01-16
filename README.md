@@ -28,6 +28,7 @@ Deploy those to your server.
 ### For the Backend
 * PORT - The Port the server will listen at
 * LOG_LEVEL - The kind of logs you want to get out of the backend (logs will be saved to backend/src/events.log)
+* MONGO - The MongoDB connection string
 
 ### For the Frontend
 * USERNAME - The username that is used to authenticate with dashboard.uptain.de

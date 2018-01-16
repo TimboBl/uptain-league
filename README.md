@@ -18,6 +18,6 @@ These variables must be set in a frontend.env and backend.env file in the respec
 * MONGO - The MongoDB connection string
 
 ### For the Frontend
-* USERNAME - The username that is used to authenticate with dashboard.uptain.de
-* PASSWORD - The password for dashboard.uptain.de
-* AUTH_TOKEN - The auth_token property for requests to dashboard.uptain.de
+* USERNAME - The username that is used to authenticate with the dashboard
+* PASSWORD - The password for the dashboard
+* AUTH_TOKEN - The auth_token property for requests to the dashboard

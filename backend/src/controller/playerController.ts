@@ -4,7 +4,19 @@ import {Player} from "Player";
 
 export const playerController = (mongoDB: any) => {
     const updateScore = (req: Request, res: Response) => {
-        mongoDB.updatePlayer(req.body.name, req.body.score).then(() => {
+        let oldPlayer: Player;
+        let opponentPlayer: Player;
+        let newPlayers: {player: Player, opponent: Player};
+        mongoDB.findPlayer(req.body.name).then((player: Player) => {
+            oldPlayer = player;
+            return mongoDB.findPlayer(req.body.opponent);
+        }).then((opponent: Player) => {
+            opponentPlayer = opponent;
+            newPlayers = updatePlayerScore(oldPlayer, opponent, req.body.result);
+            return mongoDB.updatePlayer(newPlayers.player);
+        }).then(() => {
+            return mongoDB.updatePlayer(newPlayers.opponent);
+        }).then(() => {
             logger.debug("Player score was successfully updated", {name: req.body.name, score: req.body.score});
             res.status(200).send({message: "Success"});
         }).catch((err: Error) => {
@@ -38,7 +50,7 @@ export const playerController = (mongoDB: any) => {
                     res.status(409).send({message: "Conflict! This name is already taken"});
                 } else {
                     logger.debug("Saving a new Player", {player: req.body});
-                    mongoDB.updatePlayer(req.body.name, 1000).then(() => {
+                    mongoDB.saveNewPlayer(req.body.name).then(() => {
                         logger.debug("New Player was successfully saved");
                         res.status(200).send({message: "Success"});
                     }).catch((err: Error) => {
@@ -48,6 +60,23 @@ export const playerController = (mongoDB: any) => {
                 }
             });
         }
+    };
+
+    const updatePlayerScore = (pl: Player, opp: Player, result: number): {player: Player, opponent: Player} => {
+        const returnValue = {
+            player: pl,
+            opponent: opp
+        };
+
+        if (result === 0/*The player has lost to its opponent*/) {
+            pl.score = opp.score - 400 * (pl.wins - pl.losses);
+            opp.score = pl.score + 400 * (opp.wins - opp.losses);
+        } else {
+            pl.score = opp.score - 400 * (pl.wins - pl.losses);
+            opp.score = pl.score + 400 * (opp.wins - opp.losses);
+        }
+
+        return returnValue;
     };
 
     return {

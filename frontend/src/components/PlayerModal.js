@@ -30,7 +30,11 @@ class PlayerModal extends React.Component{
                         contentLabel={"Test"}
                         style={modalStyle}>
                 <h1 style={{fontFamily: "Maven Pro", textAlign: "center"}}>Add a new Player to the league</h1>
-                First Name: <input type={"text"} style={{position: "absolute"}} onChange={this.handleNameChange}/> <br/>
+                First Name: <input type={"text"} style={{position: "absolute"}} onChange={this.handleNameChange} onKeyDown={e => {
+                    if (e.keyCode === 13) {
+                        this.saveNewPlayer();
+                    }
+            }} autoFocus={"autofocus"}/> <br/>
                 <div style={{color: "#A94442"}}>{this.state.error}</div>
                 <footer>
                     <div>

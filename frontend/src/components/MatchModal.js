@@ -30,7 +30,11 @@ class MatchModal extends React.Component {
                         contentLabel={"Test"}
                         style={modalStyle}>
                 <h1 style={{fontFamily: "Maven Pro", textAlign: "center"}}>Record a match result</h1>
-                Opponent's Name: <input type={"text"} style={{position: "absolute"}} onChange={this.handleNameChange}/> <br/>
+                Opponent's Name: <input type={"text"} style={{position: "absolute"}} onChange={this.handleNameChange} onKeyDown={e => {
+                    if (e.keyCode === 13) {
+                        this.saveMatch();
+                    }
+            }} autoFocus={"autofocus"}/> <br/>
                 <div style={{color: "#A94442"}}>{this.state.error}</div>
                 <footer>
                     <div>

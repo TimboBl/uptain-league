@@ -3,7 +3,7 @@ import './App.css';
 import CustomTableRow from "./components/CustomTableRow";
 import * as axios from 'axios';
 import {BASE_URL, SCORES} from "./config/config";
-import Modal from "./components/Modal";
+import PlayerModal from "./components/PlayerModal";
 
 class App extends Component {
 
@@ -31,8 +31,8 @@ class App extends Component {
                         height={40} width={108} style={{float: "left", paddingLeft: "40px", paddingTop: "10px", cursor: "pointer"}}/></a>
                     <h1 className={"headline"} style={{paddingTop: "50px", textAlign: "center"}}>uptain Leaderboard</h1>
                 </header>
-                <Modal playerWindowOpen={this.state.playerWindowOpen} closePlayerWindow={this.closePlayerWindow}/>
-                <Modal matchWindowOpen={this.state.matchWindowOpen} closeMatchWindow={this.closeMatchWindow}/>
+                <PlayerModal playerWindowOpen={this.state.playerWindowOpen} closePlayerWindow={this.closePlayerWindow}/>
+                <MatchModal matchWindowOpen={this.state.matchWindowOpen} closeMatchWindow={this.closeMatchWindow}/>
                 <div style={{backgroundColor: "#5b5553", width: "100%"}}>
                     <table style={{margin: "auto"}}>
                         <thead>

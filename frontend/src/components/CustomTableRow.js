@@ -14,7 +14,7 @@ class CustomTableRow extends React.Component {
         return (
                 <tr className={"tableRow"}>
                     <td>{this.props.player}</td>
-                    <td>{this.props.score}</td>
+                    <td>{this.props.score | 0}</td>
                     <td><button onClick={this.increaseScore}>Victory</button></td>
                     <td><button onClick={this.decreaseScore}>Defeat</button></td>
                 </tr>

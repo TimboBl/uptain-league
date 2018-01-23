@@ -12,7 +12,7 @@ const modalStyle = {
     }
 };
 
-class Modal extends React.Component{
+class PlayerModal extends React.Component{
     constructor(props) {
         super(props);
         this.saveNewPlayer = this.saveNewPlayer.bind(this);
@@ -67,4 +67,4 @@ class Modal extends React.Component{
     }
 }
 
-export default Modal;
+export default PlayerModal;

@@ -6,10 +6,10 @@ import {QueryCursor} from "mongoose";
 
 export const mongoService = (() => {
 
-    const updatePlayer = (name: string, score: number, totalGames: number, winOrLoss: string, winOrLossValue: number): Promise<Player> => {
-                const update = winOrLoss === "win" ?
-                    {"name": name, "score": score, "totalGames": totalGames, "wins": winOrLossValue} :
-                    {"name": name, "score": score, "totalGames": totalGames, "losses": winOrLossValue};
+    const updatePlayer = (player: Player, result: string): Promise<Player> => {
+                const update = result === "win" ?
+                    {"name": player.name, "score": player.score, "totalGames": player.totalGames, "wins": player.wins + 1} :
+                    {"name": player.name, "score": player.score, "totalGames": player.totalGames, "losses": player.losses + 1};
                 return PLAYER.update({"name": name}, {
                     "$set": update
                 }, {upsert: true}).exec();
@@ -25,12 +25,19 @@ export const mongoService = (() => {
         });
     };
 
+    const saveNewPlayer = (name: string):Promise<Player> => {
+        return PLAYER.update({"name": name}, {
+            "$set": {"name": name, "score": 1000, "totalGames": 0, "wins": 0, "losses": 0}
+        }).exec();
+    };
+
     const getScores = () => {
         return PLAYER.find({}, {name: 1, score: 1, _id: 0}).sort({score: -1}).cursor();
     };
 
     const mongoMethods = {
         updatePlayer,
+        saveNewPlayer,
         findPlayer,
         getScores
     };

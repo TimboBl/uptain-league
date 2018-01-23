@@ -17,8 +17,8 @@ class CustomTableRow extends React.Component {
                 <tr className={"tableRow"}>
                     <td>{this.props.player}</td>
                     <td>{this.props.score}</td>
-                    <td><button onClick={this.increaseScore}>Increase Score</button></td>
-                    <td><button onClick={this.decreaseScore}>Decrease Score</button></td>
+                    <td><button onClick={this.increaseScore}>Victory</button></td>
+                    <td><button onClick={this.decreaseScore}>Defeat</button></td>
                 </tr>
         )
     }
@@ -26,7 +26,7 @@ class CustomTableRow extends React.Component {
     increaseScore() {
         axios.put(BASE_URL + UPDATE_SCORE + this.props.player, {
             name: this.props.player,
-            score: this.props.score + 1
+            result: "win"
         }).then(() => {
             this.props.render();
         }).catch((error) => {
@@ -37,7 +37,7 @@ class CustomTableRow extends React.Component {
     decreaseScore() {
         axios.put(BASE_URL + UPDATE_SCORE + this.props.player, {
             name: this.props.player,
-            score: this.props.score - 1
+            result: "loose"
         }).then(() => {
             this.props.render();
         }).catch((error) => {

@@ -17,10 +17,10 @@ export const playerController = (mongoDB: any) => {
         }).then(() => {
             return mongoDB.updatePlayer(newPlayers.opponent);
         }).then(() => {
-            logger.debug("Player score was successfully updated", {name: req.body.name, score: req.body.score});
-            res.status(200).send({message: "Success"});
+            logger.debug("Player score was successfully updated", {name: req.body.name});
+            return res.status(200).send({message: "Success"});
         }).catch((err: Error) => {
-            logger.error("Saving the players score failed!", {name: req.body.name, error: err});
+            logger.error("Saving the players score failed!", {error: err, name: req.body.name});
             res.status(500).send({message: "There was an internal server error"});
         });
     };
@@ -38,7 +38,7 @@ export const playerController = (mongoDB: any) => {
                 return;
             });
             cursor.on("end", () => {
-                logger.debug("Getting the scores was successful", player);
+                logger.debug("Getting the scores was successful");
                 res.status(200).send({message: "Success", data: player});
             });
     };
@@ -69,12 +69,18 @@ export const playerController = (mongoDB: any) => {
         };
 
         if (result === 0/*The player has lost to its opponent*/) {
+            pl.losses += 1;
+            opp.wins += 1;
             pl.score = opp.score - 400 * (pl.wins - pl.losses);
             opp.score = pl.score + 400 * (opp.wins - opp.losses);
         } else {
+            pl.wins += 1;
+            opp.losses += 1;
             pl.score = opp.score - 400 * (pl.wins - pl.losses);
             opp.score = pl.score + 400 * (opp.wins - opp.losses);
         }
+        pl.totalGames += 1;
+        opp.totalGames += 1;
 
         return returnValue;
     };

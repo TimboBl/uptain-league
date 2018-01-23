@@ -1,7 +1,5 @@
 import React from 'react';
 import "../App.css"
-import * as axios from 'axios';
-import {BASE_URL, UPDATE_SCORE} from "../config/config";
 
 class CustomTableRow extends React.Component {
 
@@ -24,26 +22,13 @@ class CustomTableRow extends React.Component {
     }
 
     increaseScore() {
-        axios.put(BASE_URL + UPDATE_SCORE + this.props.player, {
-            name: this.props.player,
-            result: "win"
-        }).then(() => {
-            this.props.render();
-        }).catch((error) => {
-            console.log(error);
-        });
+        this.props.openMatchWindow("win", this.props.player);
     }
 
     decreaseScore() {
-        axios.put(BASE_URL + UPDATE_SCORE + this.props.player, {
-            name: this.props.player,
-            result: "loose"
-        }).then(() => {
-            this.props.render();
-        }).catch((error) => {
-            console.log(error);
-        });
+        this.props.openMatchWindow("loss", this.props.player);
     }
+
 }
 
 export default CustomTableRow;

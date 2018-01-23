@@ -4,20 +4,25 @@ import CustomTableRow from "./components/CustomTableRow";
 import * as axios from 'axios';
 import {BASE_URL, SCORES} from "./config/config";
 import PlayerModal from "./components/PlayerModal";
+import MatchModal from "./components/MatchModal";
 
 class App extends Component {
+
 
     constructor() {
         super();
         this.getPlayers = this.getPlayers.bind(this);
         this.addPlayer = this.addPlayer.bind(this);
         this.closePlayerWindow = this.closePlayerWindow.bind(this);
+        this.openMatchWindow = this.openMatchWindow.bind(this);
         this.closeMatchWindow = this.closeMatchWindow.bind(this);
         this.render = this.render.bind(this);
         this.state = {
             rows: [],
             playerWindowOpen: false,
-            matchWindowOpen: false
+            matchWindowOpen: false,
+            result: "",
+            player: ""
         };
         this.getPlayers();
     }
@@ -32,7 +37,8 @@ class App extends Component {
                     <h1 className={"headline"} style={{paddingTop: "50px", textAlign: "center"}}>uptain Leaderboard</h1>
                 </header>
                 <PlayerModal playerWindowOpen={this.state.playerWindowOpen} closePlayerWindow={this.closePlayerWindow}/>
-                <MatchModal matchWindowOpen={this.state.matchWindowOpen} closeMatchWindow={this.closeMatchWindow}/>
+                <MatchModal matchWindowOpen={this.state.matchWindowOpen} closeMatchWindow={this.closeMatchWindow} result={this.state.result}
+                player={this.state.player}/>
                 <div style={{backgroundColor: "#5b5553", width: "100%"}}>
                     <table style={{margin: "auto"}}>
                         <thead>
@@ -58,10 +64,11 @@ class App extends Component {
            for (let i = 0; i < result.data.data.length; ++i) {
                rows.push(<CustomTableRow key={i} keyID={i} player={result.data.data[i].name}
                                                                   score={result.data.data[i].score}
+                                         openMatchWindow={this.openMatchWindow}
                                             render={this.getPlayers}/>);
            }
             self.setState({rows: rows});
-            axios.post("https://" + process.env.USERNAME + ":" + process.env.PASSWORD + "@dashboard.uptain.de/widgets/leader", {
+            axios.post("https://dashboard.uptain.de/widgets/leader", {
                 text: self.state.rows[0].name
             }).then(() => {
                 console.log("Successfully updated Score on the uptain KPI Monitor");
@@ -83,8 +90,14 @@ class App extends Component {
         this.getPlayers();
     }
 
+    openMatchWindow(result, player) {
+        this.setState({result: result, player: player});
+        this.setState({matchWindowOpen: true});
+    }
+
     closeMatchWindow() {
-        this.setState({matchWindowopen: false});
+        console.log(this);
+        this.setState({matchWindowOpen: false, result: "", player: ""});
         this.getPlayers();
     }
 }

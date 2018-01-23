@@ -28,7 +28,7 @@ export const mongoService = (() => {
     const saveNewPlayer = (name: string):Promise<Player> => {
         return PLAYER.update({"name": name}, {
             "$set": {"name": name, "score": 1000, "totalGames": 0, "wins": 0, "losses": 0}
-        }).exec();
+        }, {upsert: true}).exec();
     };
 
     const getScores = () => {

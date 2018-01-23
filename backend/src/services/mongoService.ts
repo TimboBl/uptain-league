@@ -6,12 +6,14 @@ import {QueryCursor} from "mongoose";
 
 export const mongoService = (() => {
 
-    const updatePlayer = (name: string, score: number): Promise<Player> => {
-
-        return PLAYER.update({"name": name}, {
-            "$set": {"name": name, "score": score}
-        }, {upsert: true}).exec();
-    };
+    const updatePlayer = (name: string, score: number, totalGames: number, winOrLoss: string, winOrLossValue: number): Promise<Player> => {
+                const update = winOrLoss === "win" ?
+                    {"name": name, "score": score, "totalGames": totalGames, "wins": winOrLossValue} :
+                    {"name": name, "score": score, "totalGames": totalGames, "losses": winOrLossValue};
+                return PLAYER.update({"name": name}, {
+                    "$set": update
+                }, {upsert: true}).exec();
+        };
 
     const findPlayer = (playerName: string) => {
         return PLAYER.find({name: playerName}).exec().then((result) => {

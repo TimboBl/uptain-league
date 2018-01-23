@@ -5,10 +5,15 @@ import {PLAYER} from "../models/Player";
 
 export const mongoService = (() => {
 
-    const updatePlayer = (player: Player, result: string): Promise<Player> => {
-        const update = result === "win" ?
-            {"name": player.name, "score": player.score, "totalGames": player.totalGames, "wins": player.wins + 1} :
-            {"name": player.name, "score": player.score, "totalGames": player.totalGames, "losses": player.losses + 1};
+    const updatePlayer = (player: Player): Promise<Player> => {
+
+        const update = {
+            "name": player.name,
+            "score": player.score,
+            "totalGames": player.totalGames,
+            "losses": player.losses,
+            "wins": player.wins
+        };
         return PLAYER.update({"name": player.name}, {
             "$set": update
         }, {upsert: true}).exec();

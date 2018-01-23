@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import './App.css';
 import CustomTableRow from "./components/CustomTableRow";
 import * as axios from 'axios';
-import {BASE_URL, SCORES} from "./config/config";
+import {BASE_URL, SCORES, UPDATE_KPI} from "./config/config";
 import PlayerModal from "./components/PlayerModal";
 import MatchModal from "./components/MatchModal";
 
@@ -68,8 +68,8 @@ class App extends Component {
                                             render={this.getPlayers}/>);
            }
             self.setState({rows: rows});
-            axios.post("https://dashboard.uptain.de/widgets/leader", {
-                text: self.state.rows[0].name
+            axios.post(BASE_URL + UPDATE_KPI, {
+                leader: self.state.rows[0].name
             }).then(() => {
                 console.log("Successfully updated Score on the uptain KPI Monitor");
             }).catch((error) => {

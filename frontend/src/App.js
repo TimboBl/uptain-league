@@ -2,20 +2,27 @@ import React, {Component} from 'react';
 import './App.css';
 import CustomTableRow from "./components/CustomTableRow";
 import * as axios from 'axios';
-import {BASE_URL, SCORES} from "./config/config";
-import Modal from "./components/Modal";
+import {BASE_URL, SCORES, UPDATE_KPI} from "./config/config";
+import PlayerModal from "./components/PlayerModal";
+import MatchModal from "./components/MatchModal";
 
 class App extends Component {
+
 
     constructor() {
         super();
         this.getPlayers = this.getPlayers.bind(this);
         this.addPlayer = this.addPlayer.bind(this);
         this.closePlayerWindow = this.closePlayerWindow.bind(this);
+        this.openMatchWindow = this.openMatchWindow.bind(this);
+        this.closeMatchWindow = this.closeMatchWindow.bind(this);
         this.render = this.render.bind(this);
         this.state = {
             rows: [],
-            playerWindowOpen: false
+            playerWindowOpen: false,
+            matchWindowOpen: false,
+            result: "",
+            player: ""
         };
         this.getPlayers();
     }
@@ -29,15 +36,17 @@ class App extends Component {
                         height={40} width={108} style={{float: "left", paddingLeft: "40px", paddingTop: "10px", cursor: "pointer"}}/></a>
                     <h1 className={"headline"} style={{paddingTop: "50px", textAlign: "center"}}>uptain Leaderboard</h1>
                 </header>
-                <Modal playerWindowOpen={this.state.playerWindowOpen} closePlayerWindow={this.closePlayerWindow}/>
+                <PlayerModal playerWindowOpen={this.state.playerWindowOpen} closePlayerWindow={this.closePlayerWindow}/>
+                <MatchModal matchWindowOpen={this.state.matchWindowOpen} closeMatchWindow={this.closeMatchWindow} result={this.state.result}
+                player={this.state.player}/>
                 <div style={{backgroundColor: "#5b5553", width: "100%"}}>
                     <table style={{margin: "auto"}}>
                         <thead>
                         <tr>
                             <th className={"tableHeader"} style={{paddingRight: "10px"}}>Player</th>
                             <th className={"tableHeader"} style={{paddingLeft: "10px", paddingRight: "10px"}}>Score</th>
-                            <th className={"tableHeader"} style={{paddingRight: "10px"}}>Increase Score</th>
-                            <th className={"tableHeader"} style={{paddingLeft: "10px"}}>Decrease Score</th>
+                            <th className={"tableHeader"} style={{paddingRight: "10px"}}>Victory</th>
+                            <th className={"tableHeader"} style={{paddingLeft: "10px"}}>Defeat</th>
                         </tr>
                         </thead>
                         <tbody>{this.state.rows}</tbody>
@@ -55,12 +64,12 @@ class App extends Component {
            for (let i = 0; i < result.data.data.length; ++i) {
                rows.push(<CustomTableRow key={i} keyID={i} player={result.data.data[i].name}
                                                                   score={result.data.data[i].score}
+                                         openMatchWindow={this.openMatchWindow}
                                             render={this.getPlayers}/>);
            }
             self.setState({rows: rows});
-            axios.post("https://" + process.env.USERNAME + ":" + process.env.PASSWORD + "@dashboard.uptain.de/widgets/leader", {
-                text: self.state.rows[0].name,
-                auth_token: process.env.AUTH_TOKEN
+            axios.post(BASE_URL + UPDATE_KPI, {
+                leader: self.state.rows[0].name
             }).then(() => {
                 console.log("Successfully updated Score on the uptain KPI Monitor");
             }).catch((error) => {
@@ -78,6 +87,17 @@ class App extends Component {
 
     closePlayerWindow() {
         this.setState({playerWindowOpen: false});
+        this.getPlayers();
+    }
+
+    openMatchWindow(result, player) {
+        this.setState({result: result, player: player});
+        this.setState({matchWindowOpen: true});
+    }
+
+    closeMatchWindow() {
+        console.log(this);
+        this.setState({matchWindowOpen: false, result: "", player: ""});
         this.getPlayers();
     }
 }

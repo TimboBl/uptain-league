@@ -12,16 +12,14 @@ const modalStyle = {
     }
 };
 
-class Modal extends React.Component{
+class PlayerModal extends React.Component{
     constructor(props) {
         super(props);
         this.saveNewPlayer = this.saveNewPlayer.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
-        this.handleScoreChange = this.handleScoreChange.bind(this);
 
         this.state = {
             name: "",
-            score: "",
             error: ""
         }
     }
@@ -32,8 +30,11 @@ class Modal extends React.Component{
                         contentLabel={"Test"}
                         style={modalStyle}>
                 <h1 style={{fontFamily: "Maven Pro", textAlign: "center"}}>Add a new Player to the league</h1>
-                First Name: <input type={"text"} style={{position: "absolute"}} onChange={this.handleNameChange}/> <br/>
-                Initial Score: <input type={"text"} style={{position: "absolute"}} onChange={this.handleScoreChange}/>
+                First Name: <input type={"text"} style={{position: "absolute"}} onChange={this.handleNameChange} onKeyDown={e => {
+                    if (e.keyCode === 13) {
+                        this.saveNewPlayer();
+                    }
+            }} autoFocus={"autofocus"}/> <br/>
                 <div style={{color: "#A94442"}}>{this.state.error}</div>
                 <footer>
                     <div>
@@ -48,12 +49,11 @@ class Modal extends React.Component{
 
     saveNewPlayer () {
         const self = this;
-        if (this.state.name === "" || this.state.score === "") {
-            self.setState({error: "You need to enter something"});
+        if (this.state.name === "") {
+            self.setState({error: "You need to enter a name"});
         } else {
             axios.post(BASE_URL + NEW_PLAYER, {
-                name: this.state.name,
-                score: this.state.score
+                name: this.state.name
             }).then(() => {
                 this.props.closePlayerWindow();
             }).catch((error) => {
@@ -65,14 +65,10 @@ class Modal extends React.Component{
         }
     }
 
-    handleScoreChange(e) {
-        this.setState({score: e.target.value});
-    }
-
     handleNameChange(e) {
         this.setState({error: ""});
         this.setState({name: e.target.value});
     }
 }
 
-export default Modal;
+export default PlayerModal;

@@ -1,7 +1,5 @@
 import React from 'react';
 import "../App.css"
-import * as axios from 'axios';
-import {BASE_URL, UPDATE_SCORE} from "../config/config";
 
 class CustomTableRow extends React.Component {
 
@@ -16,34 +14,21 @@ class CustomTableRow extends React.Component {
         return (
                 <tr className={"tableRow"}>
                     <td>{this.props.player}</td>
-                    <td>{this.props.score}</td>
-                    <td><button onClick={this.increaseScore}>Increase Score</button></td>
-                    <td><button onClick={this.decreaseScore}>Decrease Score</button></td>
+                    <td>{this.props.score | 0}</td>
+                    <td><button onClick={this.increaseScore}>Victory</button></td>
+                    <td><button onClick={this.decreaseScore}>Defeat</button></td>
                 </tr>
         )
     }
 
     increaseScore() {
-        axios.put(BASE_URL + UPDATE_SCORE + this.props.player, {
-            name: this.props.player,
-            score: this.props.score + 1
-        }).then(() => {
-            this.props.render();
-        }).catch((error) => {
-            console.log(error);
-        });
+        this.props.openMatchWindow("win", this.props.player);
     }
 
     decreaseScore() {
-        axios.put(BASE_URL + UPDATE_SCORE + this.props.player, {
-            name: this.props.player,
-            score: this.props.score - 1
-        }).then(() => {
-            this.props.render();
-        }).catch((error) => {
-            console.log(error);
-        });
+        this.props.openMatchWindow("loss", this.props.player);
     }
+
 }
 
 export default CustomTableRow;

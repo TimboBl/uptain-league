@@ -12,10 +12,12 @@ class App extends Component {
         this.getPlayers = this.getPlayers.bind(this);
         this.addPlayer = this.addPlayer.bind(this);
         this.closePlayerWindow = this.closePlayerWindow.bind(this);
+        this.closeMatchWindow = this.closeMatchWindow.bind(this);
         this.render = this.render.bind(this);
         this.state = {
             rows: [],
-            playerWindowOpen: false
+            playerWindowOpen: false,
+            matchWindowOpen: false
         };
         this.getPlayers();
     }
@@ -30,14 +32,15 @@ class App extends Component {
                     <h1 className={"headline"} style={{paddingTop: "50px", textAlign: "center"}}>uptain Leaderboard</h1>
                 </header>
                 <Modal playerWindowOpen={this.state.playerWindowOpen} closePlayerWindow={this.closePlayerWindow}/>
+                <Modal matchWindowOpen={this.state.matchWindowOpen} closeMatchWindow={this.closeMatchWindow}/>
                 <div style={{backgroundColor: "#5b5553", width: "100%"}}>
                     <table style={{margin: "auto"}}>
                         <thead>
                         <tr>
                             <th className={"tableHeader"} style={{paddingRight: "10px"}}>Player</th>
                             <th className={"tableHeader"} style={{paddingLeft: "10px", paddingRight: "10px"}}>Score</th>
-                            <th className={"tableHeader"} style={{paddingRight: "10px"}}>Increase Score</th>
-                            <th className={"tableHeader"} style={{paddingLeft: "10px"}}>Decrease Score</th>
+                            <th className={"tableHeader"} style={{paddingRight: "10px"}}>Victory</th>
+                            <th className={"tableHeader"} style={{paddingLeft: "10px"}}>Defeat</th>
                         </tr>
                         </thead>
                         <tbody>{this.state.rows}</tbody>
@@ -59,8 +62,7 @@ class App extends Component {
            }
             self.setState({rows: rows});
             axios.post("https://" + process.env.USERNAME + ":" + process.env.PASSWORD + "@dashboard.uptain.de/widgets/leader", {
-                text: self.state.rows[0].name,
-                auth_token: process.env.AUTH_TOKEN
+                text: self.state.rows[0].name
             }).then(() => {
                 console.log("Successfully updated Score on the uptain KPI Monitor");
             }).catch((error) => {
@@ -78,6 +80,11 @@ class App extends Component {
 
     closePlayerWindow() {
         this.setState({playerWindowOpen: false});
+        this.getPlayers();
+    }
+
+    closeMatchWindow() {
+        this.setState({matchWindowopen: false});
         this.getPlayers();
     }
 }

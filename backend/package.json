@@ -1,6 +1,6 @@
 {
   "name": "uptain-league-backend",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Backend to store scores and leaders",
   "main": "dist/server.js",
   "scripts": {

@@ -1,10 +1,11 @@
 {
   "name": "uptain-league-backend",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Backend to store scores and leaders",
   "main": "dist/server.js",
   "scripts": {
     "start": "tsc && node dist/server.js",
+    "build":"tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

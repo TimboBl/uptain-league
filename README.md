@@ -7,6 +7,14 @@
 * Clone this repository or download the master branch
 
  `cd uptain-league`
+
+ `cd backend`
+
+ `npm run build`
+
+ `cd ../frontend`
+
+ `npm run build`
  
  `docker-compose up`
 

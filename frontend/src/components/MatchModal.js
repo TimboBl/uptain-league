@@ -2,6 +2,7 @@ import React from 'react';
 import ReactModal from "react-modal";
 import * as axios from "axios/index";
 import {BASE_URL, UPDATE_SCORE} from "../config/config";
+import "../App.css";
 
 const modalStyle = {
     content: {
@@ -32,7 +33,7 @@ class MatchModal extends React.Component {
                         style={modalStyle}>
                 <h1 style={{fontFamily: "Maven Pro", textAlign: "center"}}>Record a match result</h1>
                  <br/>
-                Opponent's Name: <select onChange={this.handleNameChange}>
+                Opponent's Name: <select onChange={this.handleNameChange} className={"playerSelect"}>
                 {this.createPlayers()}
             </select>
                 <div style={{color: "#A94442"}}>{this.state.error}</div>

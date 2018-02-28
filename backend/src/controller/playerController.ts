@@ -94,10 +94,10 @@ export const playerController = (mongoDB: any) => {
     };
 
     const updateKPI = (req: Request, res: Response) => {
-        axios.post("https://dashboard.uptain.de/widgets/leader", {
+        axios.post("https://dashboard.uptain.de/widgets/leader", JSON.stringify({
             text: req.body.leader,
             auth_token: process.env.AUTH_TOKEN
-        }).then(() => {
+        })).then(() => {
             logger.debug("Successfully updated KPI monitor");
             res.status(200).send({message: "Success"});
         }).catch((err: Error) => {

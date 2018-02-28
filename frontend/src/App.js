@@ -76,7 +76,7 @@ class App extends Component {
     updateKPI() {
         const self = this;
         axios.post(BASE_URL + UPDATE_KPI, {
-            leader: self.state.rows[0].name
+            leader: self.state.rows[0].props.player
         }).then(() => {
             console.log("Successfully updated Score on the uptain KPI Monitor");
         }).catch((error) => {

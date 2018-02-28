@@ -19,8 +19,6 @@ services:
       - "27017:27017"
   frontend:
     container_name: frontend
-    env_file:
-      - frontend/frontend.env
     build: ./frontend/
     volumes:
       - ./frontend:/usr/src/app/

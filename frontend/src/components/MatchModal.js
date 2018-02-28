@@ -23,8 +23,12 @@ class MatchModal extends React.Component {
         this.state = {
             name: "",
             error: ""
-        }
+        };
     }
+
+    componentWillReceiveProps(nextProps) {
+       this.setState({name: nextProps.player});
+    };
 
     render() {
         return (
@@ -33,7 +37,7 @@ class MatchModal extends React.Component {
                         style={modalStyle}>
                 <h1 style={{fontFamily: "Maven Pro", textAlign: "center"}}>Record a match result</h1>
                  <br/>
-                Opponent's Name: <select onChange={this.handleNameChange} className={"playerSelect"}>
+                Opponent's Name: <select onChange={this.handleNameChange} className={"playerSelect"} value={this.state.name}>
                 {this.createPlayers()}
             </select>
                 <div style={{color: "#A94442"}}>{this.state.error}</div>
@@ -50,8 +54,8 @@ class MatchModal extends React.Component {
 
     saveMatch () {
         const self = this;
-        if (this.state.name === "") {
-            self.setState({error: "You need to enter a name"});
+        if (this.state.name === "" || this.state.name === this.props.player) {
+            self.setState({error: "Please do not select yourself"});
         } else {
             axios.put(BASE_URL + UPDATE_SCORE + self.props.player, {
                 name: self.props.player,

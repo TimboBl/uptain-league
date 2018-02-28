@@ -17,6 +17,7 @@ class App extends Component {
         this.openMatchWindow = this.openMatchWindow.bind(this);
         this.closeMatchWindow = this.closeMatchWindow.bind(this);
         this.render = this.render.bind(this);
+        this.updateKPI = this.updateKPI.bind(this);
         this.state = {
             rows: [],
             playerWindowOpen: false,
@@ -38,7 +39,7 @@ class App extends Component {
                 </header>
                 <PlayerModal playerWindowOpen={this.state.playerWindowOpen} closePlayerWindow={this.closePlayerWindow}/>
                 <MatchModal matchWindowOpen={this.state.matchWindowOpen} closeMatchWindow={this.closeMatchWindow} result={this.state.result}
-                player={this.state.player}/>
+                player={this.state.player} players={this.state.rows} updateKPI={this.updateKPI}/>
                 <div style={{backgroundColor: "#5b5553", width: "100%"}}>
                     <table style={{margin: "auto"}}>
                         <thead>
@@ -46,7 +47,6 @@ class App extends Component {
                             <th className={"tableHeader"} style={{paddingRight: "10px"}}>Player</th>
                             <th className={"tableHeader"} style={{paddingLeft: "10px", paddingRight: "10px"}}>Score</th>
                             <th className={"tableHeader"} style={{paddingRight: "10px"}}>Victory</th>
-                            <th className={"tableHeader"} style={{paddingLeft: "10px"}}>Defeat</th>
                         </tr>
                         </thead>
                         <tbody>{this.state.rows}</tbody>
@@ -68,16 +68,20 @@ class App extends Component {
                                             render={this.getPlayers}/>);
            }
             self.setState({rows: rows});
-            axios.post(BASE_URL + UPDATE_KPI, {
-                leader: self.state.rows[0].name
-            }).then(() => {
-                console.log("Successfully updated Score on the uptain KPI Monitor");
-            }).catch((error) => {
-                console.log(error);
-                console.log("Failed to update KPI Monitor leader");
-            });
         }).catch((error) => {
             console.log(error);
+        });
+    }
+
+    updateKPI() {
+        const self = this;
+        axios.post(BASE_URL + UPDATE_KPI, {
+            leader: self.state.rows[0].name
+        }).then(() => {
+            console.log("Successfully updated Score on the uptain KPI Monitor");
+        }).catch((error) => {
+            console.log(error);
+            console.log("Failed to update KPI Monitor leader");
         });
     }
 
@@ -96,7 +100,6 @@ class App extends Component {
     }
 
     closeMatchWindow() {
-        console.log(this);
         this.setState({matchWindowOpen: false, result: "", player: ""});
         this.getPlayers();
     }

@@ -17,6 +17,7 @@ class MatchModal extends React.Component {
         super(props);
         this.saveMatch = this.saveMatch.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
+        this.createPlayers = this.createPlayers.bind(this);
 
         this.state = {
             name: "",
@@ -30,11 +31,10 @@ class MatchModal extends React.Component {
                         contentLabel={"Test"}
                         style={modalStyle}>
                 <h1 style={{fontFamily: "Maven Pro", textAlign: "center"}}>Record a match result</h1>
-                Opponent's Name: <input type={"text"} style={{position: "absolute"}} onChange={this.handleNameChange} onKeyDown={e => {
-                    if (e.keyCode === 13) {
-                        this.saveMatch();
-                    }
-            }} autoFocus={"autofocus"}/> <br/>
+                 <br/>
+                Opponent's Name: <select onChange={this.handleNameChange}>
+                {this.createPlayers()}
+            </select>
                 <div style={{color: "#A94442"}}>{this.state.error}</div>
                 <footer>
                     <div>
@@ -57,11 +57,20 @@ class MatchModal extends React.Component {
                 opponent: self.state.name,
                 result: self.props.result
             }).then(() => {
+                this.props.updateKPI();
                 this.props.closeMatchWindow();
             }).catch((error) => {
                 console.log(error);
             });
         }
+    }
+
+    createPlayers() {
+        let count = -1;
+        return this.props.players.map((row) => {
+            count++;
+            return <option key={count} value={row.props.player}>{row.props.player}</option>;
+        });
     }
 
     handleNameChange(e) {

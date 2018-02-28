@@ -7,7 +7,6 @@ class CustomTableRow extends React.Component {
         super(props);
 
         this.increaseScore = this.increaseScore.bind(this);
-        this.decreaseScore = this.decreaseScore.bind(this);
     }
 
     render() {
@@ -16,17 +15,12 @@ class CustomTableRow extends React.Component {
                     <td>{this.props.player}</td>
                     <td>{this.props.score | 0}</td>
                     <td><button onClick={this.increaseScore}>Victory</button></td>
-                    <td><button onClick={this.decreaseScore}>Defeat</button></td>
                 </tr>
         )
     }
 
     increaseScore() {
         this.props.openMatchWindow("win", this.props.player);
-    }
-
-    decreaseScore() {
-        this.props.openMatchWindow("loss", this.props.player);
     }
 
 }

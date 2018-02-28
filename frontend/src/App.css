@@ -59,3 +59,24 @@ button {
     margin-top: 3px;
     cursor: pointer;
 }
+
+.footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    background-color: #5b5553;
+    text-align: center;
+    color: #d2d2d2;
+}
+
+.footerLink {
+    color: #d2d2d2;
+    padding: 10px;
+}
+
+.playerSelect {
+    font-family: "Maven Pro";
+    min-width: 100px;
+}

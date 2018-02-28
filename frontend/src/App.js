@@ -53,6 +53,15 @@ class App extends Component {
                     </table>
                 </div>
                 <button onClick={this.addPlayer}>Add Player</button>
+                <footer className={"footer"}>
+                    <a target={"_blank"} href={"https://github.com/CkFreak/uptain-league/wiki/Submitting-a-Bug-Report"}
+                       className={"footerLink"}>
+                        How to report a Bug
+                    </a>
+                    <a  target={"_blank"} className={"footerLink"} href={"https://github.com/CkFreak/uptain-league/issues"}>
+                        Report a Bug
+                    </a>
+                </footer>
             </div>
         );
     }

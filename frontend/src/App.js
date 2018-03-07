@@ -53,6 +53,7 @@ class App extends Component {
                     </table>
                 </div>
                 <button onClick={this.addPlayer}>Add Player</button>
+                <button onClick={this.updateKPI}>Send Leader to Dashboard</button>
                 <footer className={"footer"}>
                     <a target={"_blank"} href={"https://github.com/CkFreak/uptain-league/wiki/Submitting-a-Bug-Report"}
                        className={"footerLink"}>
@@ -69,7 +70,7 @@ class App extends Component {
     getPlayers() {
         let rows = [];
         let self = this;
-        axios.get(BASE_URL + SCORES).then((result) => {
+        return axios.get(BASE_URL + SCORES).then((result) => {
            for (let i = 0; i < result.data.data.length; ++i) {
                rows.push(<CustomTableRow key={i} keyID={i} player={result.data.data[i].name}
                                                                   score={result.data.data[i].score}
@@ -83,15 +84,21 @@ class App extends Component {
     }
 
     updateKPI() {
-        const self = this;
+
+        this.getPlayers()
+            .then(()=>{
+            const self = this;
         axios.post(BASE_URL + UPDATE_KPI, {
             leader: self.state.rows[0].props.player
         }).then(() => {
             console.log("Successfully updated Score on the uptain KPI Monitor");
-        }).catch((error) => {
+    }).catch((error) => {
             console.log(error);
-            console.log("Failed to update KPI Monitor leader");
-        });
+        console.log("Failed to update KPI Monitor leader");
+    });
+        })
+
+
     }
 
     addPlayer() {

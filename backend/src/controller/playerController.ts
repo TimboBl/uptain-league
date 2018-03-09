@@ -16,9 +16,9 @@ export const playerController = (mongoDB: any) => {
         }).then((opponent: Player) => {
             opponentPlayer = opponent;
             newPlayers = updatePlayerScore(oldPlayer, opponent, req.body.result);
-            return mongoDB.updatePlayer(newPlayers.player);
+            return mongoDB.updatePlayer(newPlayers.player, req.body.match);
         }).then(() => {
-            return mongoDB.updatePlayer(newPlayers.opponent);
+            return mongoDB.updatePlayer(newPlayers.opponent, req.body.match);
         }).then(() => {
             logger.debug("Player score was successfully updated", {name: req.body.name});
             return res.status(200).send({message: "Success"});

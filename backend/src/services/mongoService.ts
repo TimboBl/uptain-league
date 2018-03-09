@@ -5,7 +5,7 @@ import {PLAYER} from "../models/Player";
 
 export const mongoService = (() => {
 
-    const updatePlayer = (player: Player): Promise<Player> => {
+    const updatePlayer = (player: Player, match: string): Promise<Player> => {
 
         const update = {
             "name": player.name,
@@ -15,7 +15,8 @@ export const mongoService = (() => {
             "wins": player.wins
         };
         return PLAYER.update({"name": player.name}, {
-            "$set": update
+            "$set": update,
+            "$addToSet": {"matches": match}
         }, {upsert: true}).exec();
     };
 
@@ -31,7 +32,7 @@ export const mongoService = (() => {
 
     const saveNewPlayer = (name: string): Promise<Player> => {
         return PLAYER.update({"name": name}, {
-            "$set": {"name": name, "score": 1000, "totalGames": 0, "wins": 0, "losses": 0}
+            "$set": {"name": name, "score": 1000, "totalGames": 0, "wins": 0, "losses": 0, "matches": []}
         }, {upsert: true}).exec();
     };
 

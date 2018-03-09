@@ -5,7 +5,8 @@ const playerSchema = new Schema({
     score: {type: Number},
     totalGames: {type: Number},
     wins: {type: Number},
-    losses: {type: Number}
+    losses: {type: Number},
+    matches: {type: Array}
 });
 
 export const PLAYER = model("Player", playerSchema);

@@ -80,3 +80,8 @@ button {
     font-family: "Maven Pro";
     min-width: 100px;
 }
+
+#inputLabel {
+    float: left;
+    width: 140px;
+}

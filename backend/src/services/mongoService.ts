@@ -1,11 +1,12 @@
 import * as mongoose from "mongoose";
 import {logger} from "../logging/logger";
-import {Player} from "Player";
+import {Player} from "../types/Player";
 import {PLAYER} from "../models/Player";
 
 export const mongoService = (() => {
 
-    const updatePlayer = (player: Player, match: string): Promise<Player> => {
+    const updatePlayer = (player: Player, match: {winner: string,
+    looser: string, result: string}): Promise<Player> => {
 
         const update = {
             "name": player.name,
@@ -37,14 +38,14 @@ export const mongoService = (() => {
     };
 
     const getScores = () => {
-        return PLAYER.find({}, {name: 1, score: 1, _id: 0}).sort({score: -1}).cursor();
+        return PLAYER.find({}, {name: 1, score: 1, _id: 0, matches: 1}).sort({score: -1}).cursor();
     };
 
     const mongoMethods = {
         updatePlayer,
         saveNewPlayer,
         findPlayer,
-        getScores
+        getScores,
     };
     const init = () => {
         return new Promise((resolve: Function, reject: Function) => {

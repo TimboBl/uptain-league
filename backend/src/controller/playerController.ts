@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import {logger} from "../logging/logger";
-import {Player} from "Player";
+import {Player} from "../types/Player";
 import axios from 'axios';
 
 export const playerController = (mongoDB: any) => {

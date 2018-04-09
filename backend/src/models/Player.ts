@@ -5,6 +5,7 @@ const matchSchema = new Schema({
     winner: {type: String},
     looser: {type: String},
     result: {type: String},
+    time: {type: Date},
 }, {_id: false});
 
 
@@ -18,3 +19,4 @@ const playerSchema = new Schema({
 });
 
 export const PLAYER = model("Player", playerSchema);
+export const MATCH = model("Match", matchSchema);

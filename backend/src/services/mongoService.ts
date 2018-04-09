@@ -1,12 +1,19 @@
 import * as mongoose from "mongoose";
 import {logger} from "../logging/logger";
 import {Player} from "../types/Player";
-import {PLAYER} from "../models/Player";
+import {MATCH, PLAYER} from "../models/Player";
+
+export interface IMatch {
+    winner: string,
+    looser: string,
+    result: string,
+    time: Date
+}
+
 
 export const mongoService = (() => {
 
-    const updatePlayer = (player: Player, match: {winner: string,
-    looser: string, result: string}): Promise<Player> => {
+    const updatePlayer = (player: Player, match: IMatch): Promise<Player> => {
 
         const update = {
             "name": player.name,
@@ -31,6 +38,12 @@ export const mongoService = (() => {
         });
     };
 
+    const saveMatch =
+        (match: IMatch) => {
+            return MATCH.update({}, {$set: match}, {upsert: true});
+        };
+
+
     const saveNewPlayer = (name: string): Promise<Player> => {
         return PLAYER.update({"name": name}, {
             "$set": {"name": name, "score": 1000, "totalGames": 0, "wins": 0, "losses": 0, "matches": []}
@@ -46,6 +59,7 @@ export const mongoService = (() => {
         saveNewPlayer,
         findPlayer,
         getScores,
+        saveMatch,
     };
     const init = () => {
         return new Promise((resolve: Function, reject: Function) => {

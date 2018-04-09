@@ -6,7 +6,7 @@
   "scripts": {
     "start": "tsc && node dist/server.js",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "docker": "docker build -t uptain-leaderboard-backend . && docker tag uptain-leaderboard-backend:latest 843837386292.dkr.ecr.eu-central-1.amazonaws.com/uptain-leaderboard-backend:latest && docker push 843837386292.dkr.ecr.eu-central-1.amazonaws.com/uptain-leaderboard-backend:latest"
   },
   "repository": {
     "type": "git",

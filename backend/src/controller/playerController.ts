@@ -10,15 +10,19 @@ export const playerController = (mongoDB: any) => {
         let oldPlayer: Player;
         let opponentPlayer: Player;
         let newPlayers: { player: Player, opponent: Player };
+
+        const match = req.body.match;
+        match.time = new Date();
+
         mongoDB.findPlayer(req.body.name).then((player: Player) => {
             oldPlayer = player;
             return mongoDB.findPlayer(req.body.opponent);
         }).then((opponent: Player) => {
             opponentPlayer = opponent;
             newPlayers = updatePlayerScore(oldPlayer, opponent, req.body.result);
-            return mongoDB.updatePlayer(newPlayers.player, req.body.match);
+            return mongoDB.updatePlayer(newPlayers.player, match);
         }).then(() => {
-            return mongoDB.updatePlayer(newPlayers.opponent, req.body.match);
+            return mongoDB.updatePlayer(newPlayers.opponent, match);
         }).then(() => {
             logger.debug("Player score was successfully updated", {name: req.body.name});
             return res.status(200).send({message: "Success"});

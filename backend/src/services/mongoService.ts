@@ -40,7 +40,8 @@ export const mongoService = (() => {
 
     const saveMatch =
         (match: IMatch) => {
-            return MATCH.update({}, {$set: match}, {upsert: true});
+            // return new MATCH(match).save();
+            return MATCH.update({time: match.time}, {$set: match}, {upsert: true});
         };
 
 
@@ -51,7 +52,11 @@ export const mongoService = (() => {
     };
 
     const getScores = () => {
-        return PLAYER.find({}, {name: 1, score: 1, _id: 0, matches: 1}).sort({score: -1}).cursor();
+        return PLAYER.find({}, {name: 1, score: 1, _id: 0, wins: 1, losses:1}).sort({score: -1}).cursor();
+    };
+
+    const getMatches = () => {
+        return MATCH.find({}, {_id: 0}).sort({time: -1}).limit(10).cursor();
     };
 
     const mongoMethods = {
@@ -60,6 +65,7 @@ export const mongoService = (() => {
         findPlayer,
         getScores,
         saveMatch,
+        getMatches,
     };
     const init = () => {
         return new Promise((resolve: Function, reject: Function) => {

@@ -6,6 +6,8 @@ const matchSchema = new Schema({
     looser: {type: String},
     result: {type: String},
     time: {type: Date},
+    costs: {type: Number},
+
 }, {_id: false});
 
 

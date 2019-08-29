@@ -9,7 +9,7 @@ export const playerController = (mongoDB: any) => {
     const updateScore = (req: Request, res: Response) => {
         let oldPlayer: Player;
         let opponentPlayer: Player;
-        let newPlayers: { player: Player, opponent: Player };
+        let newPlayers: { player: Player, opponent: Player , matchCosts:number};
 
         const match = req.body.match;
         match.time = new Date();
@@ -24,6 +24,7 @@ export const playerController = (mongoDB: any) => {
         }).then(() => {
             return mongoDB.updatePlayer(newPlayers.opponent, match);
         }).then(() => {
+            match.costs = newPlayers.matchCosts;
             return mongoDB.saveMatch(match);
         }).then(() => {
             logger.debug("Player score was successfully updated", {name: req.body.name});
@@ -52,6 +53,26 @@ export const playerController = (mongoDB: any) => {
         });
     };
 
+    const getMatches = (req: Request, res: Response) => {
+
+        const matches = mongoDB.getMatches();
+        const matchesArr: any[] = [];
+        matches.on("data", (doc: Player) => {
+            matchesArr.push(doc);
+        });
+        matches.on("error", (err: Error) => {
+            logger.error("Cursor for getting Scores ran into an error", {error: err});
+            res.status(500).send({message: "There was an internal server error"});
+            return;
+        });
+        matches.on("end", () => {
+            logger.debug("Getting the scores was successful");
+            res.status(200).send({message: "Success", data: matchesArr});
+        });
+
+
+    };
+
     const saveNewPlayer = (req: Request, res: Response) => {
         if (req.body.name) {
             mongoDB.findPlayer(req.body.name).then((result: any) => {
@@ -71,10 +92,11 @@ export const playerController = (mongoDB: any) => {
         }
     };
 
-    const updatePlayerScore = (pl: Player, opp: Player, result: number): { player: Player, opponent: Player } => {
+    const updatePlayerScore = (pl: Player, opp: Player, result: number): { player: Player, opponent: Player, matchCosts:number } => {
         const returnValue = {
             player: pl,
-            opponent: opp
+            opponent: opp,
+            matchCosts:0
         };
 
         const r1 = Math.pow(10, (pl.score / 400));
@@ -85,6 +107,7 @@ export const playerController = (mongoDB: any) => {
         const s2 = result === 1 ? 1 : 0;
         pl.score = pl.score + K * (s1 - e1);
         opp.score = opp.score + K * (s2 - e2);
+        returnValue.matchCosts = K * (s1 - e1);
 
         if (result === 0/*The player has lost to its opponent*/) {
             pl.losses += 1;
@@ -116,6 +139,7 @@ export const playerController = (mongoDB: any) => {
         updateScore,
         getScores,
         saveNewPlayer,
-        updateKPI
+        updateKPI,
+        getMatches
     };
 };

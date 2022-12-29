@@ -35,7 +35,7 @@
     "bluebird": "^3.5.1",
     "cors": "^2.8.4",
     "express": "^4.16.2",
-    "jest": "^22.0.4",
+    "jest": "^29.3.1",
     "mongoose": "^5.0.0-rc0",
     "supertest": "^3.0.0",
     "winston": "^2.4.0"
